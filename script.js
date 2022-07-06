@@ -15,8 +15,9 @@ choosePosition(position, x, y, plateau, fil);
 
 
 function choosePosition(position, x, y, plateau, fil) {
-    let myPosition = position[position.length - 1];
     while (plateau[y][x] != "G") {
+
+        let myPosition = position[position.length - 1];
         let hightPosition = Math.max(...position);
 
         console.log("hightPosition ======", hightPosition);
@@ -61,11 +62,13 @@ function choosePosition(position, x, y, plateau, fil) {
 
         } else {
 
-            oldPosition;
-
             console.log("hightPosition ======", hightPosition);
             console.log("position ***********************", myPosition);
             console.log("oldPosition ***********************", oldPosition);
+
+
+            while (plateau[y][x])
+
 
             y = fil[oldPosition][0];
             x = fil[oldPosition][1];
@@ -113,13 +116,13 @@ function down(plateau, fil, x,y){
 }
 
 function right(plateau, fil, x,y){
-    return (y + 1 < plateau.length && plateau[y + 1][x] == "_" && !alreadyPass(fil, x, y + 1))
+    return (x + 1 < plateau[y].length && plateau[y][x + 1] == "_" && !alreadyPass(fil, x + 1, y))
 }
 
 function up(plateau, fil, x,y){
-    return (y + 1 < plateau.length && plateau[y + 1][x] == "_" && !alreadyPass(fil, x, y + 1))
+    return (y - 1 >= 0 && plateau[y - 1][x] == "_" && !alreadyPass(fil, x, y - 1))
 }
 
 function left(plateau, fil, x,y){
-    return (y + 1 < plateau.length && plateau[y + 1][x] == "_" && !alreadyPass(fil, x, y + 1))
+    return (x - 1 >= 0 && plateau[y][x - 1] == "_" && !alreadyPass(fil, x - 1, y))
 }
