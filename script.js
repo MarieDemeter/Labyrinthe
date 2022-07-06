@@ -24,8 +24,8 @@ function choosePosition(position, x, y, plateau, fil) {
         console.log("position ***********************", myPosition);
         console.table(fil);
 
-        if (down(plateau, fil, x,y)) {
-            
+        if (down(plateau, x, y, '_') && !alreadyPass(fil, x, y + 1)) {
+
             y = y + 1;
 
             console.log("------------------------------------------------------------");
@@ -33,8 +33,8 @@ function choosePosition(position, x, y, plateau, fil) {
             print(plateau);
             console.table(position);
 
-        } else if (right(plateau, fil, x,y)) {
-            
+        } else if (right(plateau, x, y, '_') && !alreadyPass(fil, x + 1, y)) {
+
             x = x + 1;
 
             console.log("------------------------------------------------------------");
@@ -42,8 +42,8 @@ function choosePosition(position, x, y, plateau, fil) {
             print(plateau);
             console.table(position);
 
-        } else if (up(plateau, fil, x,y)) {
-            
+        } else if (up(plateau, x, y, '_') && !alreadyPass(fil, x, y - 1)) {
+
             y = y - 1;
 
             console.log("------------------------------------------------------------");
@@ -51,8 +51,8 @@ function choosePosition(position, x, y, plateau, fil) {
             print(plateau);
             console.table(position);
 
-        } else if (left(plateau, fil, x,y)) {
-            
+        } else if (left(plateau, x, y, '_') && !alreadyPass(fil, x - 1, y)) {
+
             x = x - 1;
 
             console.log("------------------------------------------------------------");
@@ -64,18 +64,29 @@ function choosePosition(position, x, y, plateau, fil) {
 
             console.log("hightPosition ======", hightPosition);
             console.log("position ***********************", myPosition);
-            console.log("oldPosition ***********************", oldPosition);
 
 
-            while (plateau[y][x])
+            let i = 1;
+            console.log("*****************************************************************************************************");
 
 
-            y = fil[oldPosition][0];
-            x = fil[oldPosition][1];
+            if (down(plateau, x, y, (myPosition - i).toString()) || right(plateau, x, y, (myPosition - i).toString()) || up(plateau, x, y, (myPosition - i).toString()) || left(plateau, x, y, (myPosition - i).toString())) {
+                i++;                
+            }
+
+            myPosition = myPosition - i;
+            position.push(myPosition);
+
+
+            console.log(i, "iiiiiiiiiiiiiii")
+            y = fil[myPosition][0];
+            x = fil[myPosition][1];
+
+            choosePosition(position, x, y, plateau, fil);
             print(plateau);
             console.table(fil);
 
-            choosePosition(position, x, y, plateau, fil);
+
 
         }
     }
@@ -97,6 +108,7 @@ function alreadyPass(fil, x, y) {
 }
 
 function addNewPosition(plateau, position, fil, x, y, hightPosition) {
+    hightPosition++;
     fil.push([y, x]);
     position.push(hightPosition);
     plateau[y][x] = hightPosition;
@@ -111,18 +123,18 @@ function print(plateau) {
     console.table(plateau);
 }
 
-function down(plateau, fil, x,y){
-    return (y + 1 < plateau.length && plateau[y + 1][x] == "_" && !alreadyPass(fil, x, y + 1))
+function down(plateau, x, y, value) {
+    return (y + 1 < plateau.length && plateau[y + 1][x] == value);
 }
 
-function right(plateau, fil, x,y){
-    return (x + 1 < plateau[y].length && plateau[y][x + 1] == "_" && !alreadyPass(fil, x + 1, y))
+function right(plateau, x, y, value) {
+    return (x + 1 < plateau[y].length && plateau[y][x + 1] == value);
 }
 
-function up(plateau, fil, x,y){
-    return (y - 1 >= 0 && plateau[y - 1][x] == "_" && !alreadyPass(fil, x, y - 1))
+function up(plateau, x, y, value) {
+    return (y - 1 >= 0 && plateau[y - 1][x] == value);
 }
 
-function left(plateau, fil, x,y){
-    return (x - 1 >= 0 && plateau[y][x - 1] == "_" && !alreadyPass(fil, x - 1, y))
+function left(plateau, x, y, value) {
+    return (x - 1 >= 0 && plateau[y][x - 1] == value);
 }
