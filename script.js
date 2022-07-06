@@ -1,11 +1,5 @@
-const plateau = [
-    ["S", "X", "_", "_", "_", "_", "_"],
-    ["_", "X", "_", "X", "X", "_", "X"],
-    ["_", "X", "_", "X", "G", "_", "_"],
-    ["_", "_", "_", "_", "X", "X", "_"],
-    ["_", "X", "_", "X", "_", "_", "_"],
-    ["_", "X", "_", "_", "_", "X", "_"]
-];
+const plateau = [["S", "X", "_", "_", "_", "_", "_"], ["_", "X", "_", "X", "X", "_", "X"], ["_", "X", "_", "X", "G", "_", "_"], ["_", "_", "_", "_", "X", "X", "_"], ["_", "X", "_", "X", "_", "_", "_"], ["_", "X", "_", "_", "_", "X", "_"]];
+
 
 let x = 0;
 let y = 0;
@@ -23,22 +17,15 @@ for (let i = 0; i < position.length; i++) {
     console.log("PAS N°", i, "x=", fil[j][1], "y=", fil[j][0]);
 }
 
-
-
-
-
-
 function choosePosition(position, x, y, plateau, fil) {
     while (plateau[y][x] != "G") {
         let myPosition = position[position.length - 1];
         let hightPosition = Math.max(...position);
         console.log("hightPosition ======", hightPosition);
         console.log("position ***********************", myPosition);
-        console.table(fil);
 
         if (down(plateau, x, y, '_') && !alreadyPass(fil, x, y + 1)) {
             y = y + 1;
-            console.log("------------------------------------------------------------");
             addNewPosition(plateau, position, fil, x, y, hightPosition);
             print(plateau);
             console.table(position);
@@ -58,7 +45,6 @@ function choosePosition(position, x, y, plateau, fil) {
             print(plateau);
             console.table(position);
         } else {
-
             if (down(plateau, x, y, 'G')) {
                 y = y + 1;
                 print(plateau);
@@ -85,7 +71,6 @@ function choosePosition(position, x, y, plateau, fil) {
                 }
                 y = fil[myPosition][0];
                 x = fil[myPosition][1];
-
                 return choosePosition(position, x, y, plateau, fil);
             }
         }
@@ -104,6 +89,7 @@ function alreadyPass(fil, x, y) {
 
 function addNewPosition(plateau, position, fil, x, y, hightPosition) {
     hightPosition++;
+    fil.push([y, x]);
     position.push(hightPosition);
     plateau[y][x] = hightPosition;
 }
