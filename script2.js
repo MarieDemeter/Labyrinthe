@@ -21,8 +21,26 @@ choosePosition(position, x, y, plateau, fil);
 
 for (let i = 0; i < position.length; i++) {
     let j = position[i];
-    console.log("PAS N°", i, "x=", fil[j][0], "y=", fil[j][1]);
+    console.log("PAS N°", i + 1, "x=", fil[j][0], "y=", fil[j][1]);
 }
+
+
+let size = smallPath(plateau, position, fil);
+console.log("Le chemin le plus court est de ", size.length, " pas !");
+console.table(size);
+
+
+console.log("Le chemi---------------------------------------------------------n le plus court est de ", size.length, " pas !");
+
+let nb = 1;
+for (let i = size.length - 1; i >= 0; i--) {
+    let j = size[i];
+    console.log("PAS N°", nb, "x=", fil[j][0], "y=", fil[j][1]);
+    nb++;
+}
+
+
+
 
 
 function choosePosition(position, x, y, plateau, fil) {
@@ -78,6 +96,7 @@ function choosePosition(position, x, y, plateau, fil) {
             } else if (left(plateau, x, y, 'G')) {
                 x = x - 1;
             }
+            addNewPosition(plateau, position, fil, x, y, hightPosition);
             return choosePosition(position, x, y, plateau, fil);
         }
         myPosition++;
@@ -98,7 +117,9 @@ function addNewPosition(plateau, position, fil, x, y, hightPosition) {
     hightPosition++;
     fil.push([x, y]);
     position.push(hightPosition);
-    plateau[x][y] = hightPosition;
+    if (plateau[x][y] != 'G') {
+        plateau[x][y] = hightPosition;
+    }
 }
 
 function print(plateau) {
@@ -129,3 +150,51 @@ function up(plateau, x, y, value) {
 function left(plateau, x, y, value) {
     return (x - 1 >= 0 && plateau[x - 1][y] == value);
 }
+
+
+
+function smallPath(plateau, position, fil) {
+
+    let smallPath = [];
+    let indexGoal = fil.length - 1;
+
+    x = fil[indexGoal][0];
+    y = fil[indexGoal][1];
+    smallPath.push(position[indexGoal]);
+    for (let i = indexGoal; i >= 0; i--) {
+
+        if (down(plateau, x, y, (i)) || right(plateau, x, y, (i)) || up(plateau, x, y, (i)) || left(plateau, x, y, (i))) {
+
+            if (down(plateau, x, y, i)) {
+                y = y + 1;
+            } else if (right(plateau, x, y, i)) {
+                x = x + 1;
+            } else if (up(plateau, x, y, i)) {
+                y = y - 1;
+            } else if (left(plateau, x, y, i)) {
+                x = x - 1;
+            }
+            smallPath.push(position[i]);
+        }
+
+    }
+    smallPath.push(position[0]);
+    return smallPath;
+}/*
+
+
+for (let i = 0; i < position.length; i++) {
+    let count = 0;
+    let indexOccurence = [];
+    for (let j = 0; j < position.length; j++) {
+        if (position[i] == position[j]) {
+            count++;
+            indexOccurence.push(j);
+        }
+    }
+    if (count > 1) {
+        i = indexOccurence[indexOccurence.length - 1];
+    }
+    smallPath.push(position[i]);
+    console.table(smallPath)
+}*/
