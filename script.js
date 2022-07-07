@@ -17,13 +17,22 @@ fil.push([0, 0]);
 let position = [0];
 
 print(plateau);
-
 choosePosition(position, x, y, plateau, fil);
 
 for (let i = 0; i < position.length; i++) {
     let j = position[i];
     console.log("PAS N°", i, "x=", fil[j][0], "y=", fil[j][1]);
 }
+
+let size= smallPath(position);
+console.log("Le chemin le plus court est de ", size.length, " pas !");
+console.table(size);
+
+for (let i = 0; i < size.length-1; i++) {
+    let j = size[i];
+    console.log("PAS N°", i, "x=", fil[j][0], "y=", fil[j][1]);
+}
+
 
 function choosePosition(position, x, y, plateau, fil) {
     while (plateau[x][y] != "G") {
@@ -137,4 +146,26 @@ function up(plateau, x, y, value) {
 
 function left(plateau, x, y, value) {
     return (x - 1 >= 0 && plateau[x-1][y] == value);
+}
+
+
+function smallPath(position){
+    
+    let smallPath = [];
+
+    for (let i = 0; i<position.length-1; i++){
+        let count =0;
+        let indexOccurence=[];
+        for (let j = 0; j<position.length-1; j++){
+            if (position[i]==position[j]){
+                count++;
+                indexOccurence.push(j);
+            }
+        }
+        if (count>1){
+            i=indexOccurence[indexOccurence.length-1];
+        }
+        smallPath.push(position[i]);
+    }
+    return smallPath;
 }
