@@ -124,11 +124,11 @@ function print(plateau) {
 }
 
 function down(plateau, x, y, value) {
-    return (y + 1 < plateau.length && plateau[x][y + 1] == value);
+    return (y + 1 < plateau.length+1 && plateau[x][y + 1] == value);
 }
 
 function right(plateau, x, y, value) {
-    return (x + 1 < plateau[y].length && plateau[x + 1][y] == value);
+    return (x + 1 < plateau[y].length+1 && plateau[x + 1][y] == value);
 }
 
 function up(plateau, x, y, value) {
